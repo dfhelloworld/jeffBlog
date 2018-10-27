@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="箭头函数与普通函数的区别作为ES6中新加入的箭头函数语法，深受广大开发人员的喜爱，也是平时前端面试过程中经常会被提及问道的典型题目。它不仅简化了我们的代码，而且也让开发人员摆脱了“飘忽不定”的this指向，本文就箭头函数与普通函数的区别进行一些分析。 在我看来，面试官最关注的也是两者最关键的区别就是this指向的区别，普通函数中的this指向函数被调用的对象，因此对于不同的调用者，this的值是不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/07/26/JS中箭头函数和普通函数中this的区别/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="箭头函数与普通函数的区别作为ES6中新加入的箭头函数语法，深受广大开发人员的喜爱，也是平时前端面试过程中经常会被提及问道的典型题目。它不仅简化了我们的代码，而且也让开发人员摆脱了“飘忽不定”的this指向，本文就箭头函数与普通函数的区别进行一些分析。 在我看来，面试官最关注的也是两者最关键的区别就是this指向的区别，普通函数中的this指向函数被调用的对象，因此对于不同的调用者，this的值是不">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-26T14:39:33.168Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="箭头函数与普通函数的区别作为ES6中新加入的箭头函数语法，深受广大开发人员的喜爱，也是平时前端面试过程中经常会被提及问道的典型题目。它不仅简化了我们的代码，而且也让开发人员摆脱了“飘忽不定”的this指向，本文就箭头函数与普通函数的区别进行一些分析。 在我看来，面试官最关注的也是两者最关键的区别就是this指向的区别，普通函数中的this指向函数被调用的对象，因此对于不同的调用者，this的值是不">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JS中箭头函数和普通函数中this的区别" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/26/JS中箭头函数和普通函数中this的区别/" class="article-date">
+  <time datetime="2018-07-26T14:38:44.476Z" itemprop="datePublished">2018-07-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="箭头函数与普通函数的区别"><a href="#箭头函数与普通函数的区别" class="headerlink" title="箭头函数与普通函数的区别"></a>箭头函数与普通函数的区别</h1><p>作为ES6中新加入的箭头函数语法，深受广大开发人员的喜爱，也是平时前端面试过程中经常会被提及问道的典型题目。它不仅简化了我们的代码，而且也让开发人员摆脱了“飘忽不定”的this指向，本文就箭头函数与普通函数的区别进行一些分析。</p>
+<p>在我看来，面试官最关注的也是两者最关键的区别就是this指向的区别，普通函数中的this指向函数被调用的对象，因此对于不同的调用者，this的值是不同的。而箭头函数中并没有自己的this（同时，箭头函数中也没有其他的局部变量，如this，argument，super等），所以箭头函数中的this是固定的，它指向定义该函数时所在的对象。</p>
+<h2 id="普通函数"><a href="#普通函数" class="headerlink" title="普通函数"></a>普通函数</h2><p>相信大家对普通函数的用法已经非常熟悉了，下面我们举一个简单的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var a  = 3;</span><br><span class="line">var obj = &#123;</span><br><span class="line">	a : 1,</span><br><span class="line">	foo : function()&#123;</span><br><span class="line">		console.log(this.a);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.foo(); //1</span><br><span class="line">var bar = obj;</span><br><span class="line">bar.a = 2;</span><br><span class="line">bar.foo(); //2</span><br><span class="line">var baz = obj.foo;</span><br><span class="line">baz(); //3</span><br></pre></td></tr></table></figure></p>
+<p>上述代码中，出现了三种情况：</p>
+<ol>
+<li>直接通过obj调用其中的方法foo，此时，this就会指向调用foo函数的对象，也就是obj;</li>
+<li>将obj对象赋给一个新的对象bar，此时通过bar调用foo函数，this的值就会指向调用者bar；</li>
+<li>将obj.foo赋给一个新对象baz，通过baz()调用foo函数，此时的this指向window；</li>
+</ol>
+<p>由此我们可以得出结论：</p>
+<ul>
+<li>普通函数的this总是指向它的直接调用者。</li>
+<li>在严格模式下，没找到直接调用者，则函数中的this是undefined。</li>
+<li>在默认模式下（非严格模式），没找到直接调用者，则函数中的this指向window。</li>
+</ul>
+<p>再考虑一下下面的情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">	a : 1,</span><br><span class="line">	foo : function()&#123;</span><br><span class="line">	 	setTimeout(</span><br><span class="line">			function()&#123;console.log(this.a),3000&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.foo(); //undefined</span><br></pre></td></tr></table></figure></p>
+<p>你可能会认为此时的输出应该为1，但是结果却是undefined。因为此时this的指向是全局的window对象。<br>通过以上例子，可以得出以下总结：</p>
+<ul>
+<li>对于方法（即通过对象调用了该函数），普通函数中的this总是指向它的调用者。</li>
+<li>对于一般函数，this指向全局变量（非严格模式下）或者undefined（严格模式下）。在上例中setTimeout中的function未被任何对象调用，因此它的this指向还是window对象。因此，这也可以总结成：javascript 的this 可以简单的认为是后期绑定，没有地方绑定的时候，默认绑定window或undefined。</li>
+</ul>
+<p>如果我们希望可以在上例的setTimeout函数中使用this要怎么做呢？在箭头函数出现之前，我们往往会使用以下两种方法：</p>
+<ol>
+<li><p>在setTimeout函数的外部，也就是上层函数foo内部通过将this值赋给一个临时变量来实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">    a : 1,</span><br><span class="line">    foo : function()&#123;</span><br><span class="line">        var that  = this;</span><br><span class="line">        setTimeout(</span><br><span class="line">            function()&#123;console.log(that.a),3000&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.foo(); //1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过bind()来绑定this。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">    a : 1,</span><br><span class="line">    foo : function()&#123;</span><br><span class="line">        setTimeout(</span><br><span class="line">            function()&#123;console.log(this.a),3000&#125;.bind(this))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.foo(); //1</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这种现象在ES6引入箭头函数后得到了改善。</p>
+<p>##箭头函数<br>箭头函数是ES6中引入的新特性，使用方法为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">()=&gt;&#123;console.log(this)&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中()内是要带入的参数，{}内是要执行的语句。箭头函数是函数式编程的一种体现，函数式编程将更多的关注点放在输入和输出的关系，省去了过程的一些因素，因此箭头函数中没有自己的this，arguments，new target（ES6）和 super(ES6)。箭头函数相当于匿名函数，因此不能使用new来作为构造函数使用。<br>箭头函数中的this始终指向其父级作用域中的this。换句话说，箭头函数会捕获其所在的上下文的this值，作为自己的this值。任何方法都改变不了其指向，如call(), bind(), apply()。在箭头函数中调用 this 时，仅仅是简单的沿着作用域链向上寻找，找到最近的一个 this 拿来使用，它与调用时的上下文无关。我们用代码来解释一下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">    a: 10,</span><br><span class="line">    b: () =&gt; &#123;</span><br><span class="line">      console.log(this.a); // undefined</span><br><span class="line">      console.log(this); // Window &#123;postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    c: function() &#123;</span><br><span class="line">      console.log(this.a); // 10</span><br><span class="line">      console.log(this); // &#123;a: 10, b: ƒ, c: ƒ&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    d:function()&#123;</span><br><span class="line">        return ()=&gt;&#123;</span><br><span class="line">            console.log(this.a); // 10</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    e:function()&#123;</span><br><span class="line">      setTime</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  obj.b(); </span><br><span class="line">  obj.c();</span><br><span class="line">  obj.d()();</span><br></pre></td></tr></table></figure></p>
+<p>简单分析一下代码，obj.b（）中的this会继承父级上下文中的this值，也就是与obj有相同的this指向，为全局变量window。obj.c()的this指向即为调用者obj，obj.d().()中的this也继承自父级上下文中的this，即d的this指向，也就是obj。<br>通过这个例子，也就可以大概的让我们理解普通函数中的this和匿名函数中的this指向差别，从而更好的在工作中根据我们的需求正确合理地使用这两种函数。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/26/JS中箭头函数和普通函数中this的区别/" data-id="cjnrajizw0003ksvqdobp9t7i" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/27/this的绑定方式-md/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          this的绑定方式.md
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/24/my-first-blog/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">my first blog</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/27/this的绑定方式-md/">this的绑定方式.md</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/26/JS中箭头函数和普通函数中this的区别/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/24/my-first-blog/">my first blog</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/24/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
